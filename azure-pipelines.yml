@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - azure-pipelines
 
@@ -12,7 +7,6 @@ variables:
     value: '${Build.SourceDirectory}/Dockerfile'
   - name: imageRegistry
     value: 'myFirstProject'
-  
 
 pool:
   name: Default
@@ -24,24 +18,12 @@ stages:
       - job: Build
         displayName: Build
         steps:
-        - script: |
-            mvnd install
-          displayName: "install project"
-        - script: |
-            mvnd clean package
-          displayName: "package jar project"
+        - script: mvnd install
+          displayName: "Install project"
           workingDirectory: '$(Build.SourcesDirectory)'
-        # - task: Maven@4
-        #   inputs:
-        #     azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'
-        #     mavenPomFile: 'pom.xml'
-        #     publishJUnitResults: true
-        #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        #     javaHomeOption: 'JDKVersion'
-        #     mavenVersionOption: 'Default'
-        #     mavenAuthenticateFeed: false
-        #     effectivePomSkip: false
-        #     sonarQubeRunAnalysis: false
+        - script: mvnd clean package
+          displayName: "Package JAR"
+          workingDirectory: '$(Build.SourcesDirectory)'
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)/target'
@@ -54,8 +36,10 @@ stages:
             command: 'build'
             Dockerfile: 'Dockerfile'
             buildContext: '.'
+  
   - stage: Push
     displayName: Push
+    dependsOn: Build
     jobs:
       - job: Push
         displayName: Push
@@ -69,9 +53,11 @@ stages:
           inputs:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
-            command: 'push'      
+            command: 'push'  
+
   - stage: Publish
     displayName: Publish
+    dependsOn: Push
     jobs:
       - job: Publish
         displayName: Publish
@@ -90,5 +76,4 @@ stages:
             deployToSlotOrASE: true
             resourceGroupName: 'NewResourceGroup'
             slotName: 'production'
-            package: '$(System.DefaultWorkingDirectory)/target/*.jar'
-
+            package: '$(System.DefaultWorkingDirectory)/drop/*.jar'

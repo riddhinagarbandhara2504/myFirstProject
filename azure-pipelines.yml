@@ -57,17 +57,19 @@ stages:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'push'
-  - stage: publish
+  - stage: Publish
     displayName: Publish
     jobs:
       - job: Publish
         displayName: Publish
         steps:
-          - task: AzureRmWebAppDeployment@5
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'
-              appType: 'webApp'
-              WebAppName: RiddhiWebApp
-              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        - task: AzureWebApp@1
+          inputs:
+            azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'
+            appType: 'webApp'
+            appName: 'RiddhiWebApp'
+            deployToSlotOrASE: true
+            resourceGroupName: 'NewResourceGroup'
+            slotName: 'production'
+            package: '$(System.DefaultWorkingDirectory)/**/*.jar'
 

@@ -57,6 +57,12 @@ stages:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'push'
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
+      
   - stage: Publish
     displayName: Publish
     jobs:
@@ -71,5 +77,5 @@ stages:
             deployToSlotOrASE: true
             resourceGroupName: 'NewResourceGroup'
             slotName: 'production'
-            package: '$(System.DefaultWorkingDirectory)/**/*.jar'
+            package: '$(System.DefaultWorkingDirectory)/target/*.jar'
 

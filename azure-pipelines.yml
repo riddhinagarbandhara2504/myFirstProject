@@ -6,6 +6,9 @@
 trigger:
 - main
 
+variables:
+  dockerfilepath: '${Build.SourceDirectory}/Dockerfile'
+
 pool:
   name: Default
 
@@ -29,7 +32,10 @@ steps:
 #     effectivePomSkip: false
 #     sonarQubeRunAnalysis: false
 
-
+- task: Docker@2
+  inputs:
+    command: 'build'
+    Dockerfile: ${dockerfilepath}
 - task: Docker@2
   inputs:
     command: 'build'

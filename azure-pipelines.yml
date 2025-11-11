@@ -37,9 +37,9 @@ stages:
             sonarQubeRunAnalysis: false
         - task: Docker@2
           inputs:
-            command: 'build'
-            containerRegistry: '$(dockerRegistryServiceConnection)'
+            containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
+            command: 'build'
             Dockerfile: 'Dockerfile'
   - stage: Push
     displayName: Push
@@ -49,7 +49,7 @@ stages:
         steps:
         - task: Docker@2
           inputs:
-            containerRegistry: '$(dockerRegistryServiceConnection)'
+            containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'push'
 

@@ -42,6 +42,11 @@ stages:
         #     mavenAuthenticateFeed: false
         #     effectivePomSkip: false
         #     sonarQubeRunAnalysis: false
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/target'
+            Contents: '*.jar'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
         - task: Docker@2
           inputs:
             containerRegistry: 'ACR-ServiceConnection'
@@ -55,11 +60,6 @@ stages:
       - job: Push
         displayName: Push
         steps:
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: '$(Build.SourcesDirectory)/target'
-            Contents: '*.jar'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)'
         - task: PublishBuildArtifacts@1
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'

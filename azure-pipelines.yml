@@ -55,11 +55,6 @@ stages:
       - job: Push
         displayName: Push
         steps:
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'ACR-ServiceConnection'
-            repository: '$(imageRegistry)'
-            command: 'push'
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)/target'
@@ -70,7 +65,11 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'drop'
             publishLocation: 'Container'
-      
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'ACR-ServiceConnection'
+            repository: '$(imageRegistry)'
+            command: 'push'      
   - stage: Publish
     displayName: Publish
     jobs:

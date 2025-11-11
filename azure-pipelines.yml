@@ -23,10 +23,10 @@ stages:
         displayName: Build
         steps:
         - script: |
-            mvnd clean
-          displayName: "clean project"
+            mvnd install
+          displayName: "install project"
         - script: |
-            mvnd package
+            mvnd clean package
           displayName: "package jar project"
         # - task: Maven@4
         #   inputs:

@@ -59,6 +59,9 @@ stages:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'push'
+        - script: |
+            mkdir $(Build.ArtifactStagingDirectory)/target
+          displayName: create target folder
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(Build.SourcesDirectory)/target'

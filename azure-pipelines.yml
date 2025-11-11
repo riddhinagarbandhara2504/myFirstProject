@@ -9,7 +9,8 @@ trigger:
 variables:
   dockerfilepath: '${Build.SourceDirectory}/Dockerfile'
   dockerRegistryServiceConnection: df6ddb32-1258-464f-b78b-747f97ce221d
-  imageRegistry: riddhiazurecontainerregistry.azurecr.io
+  imageRegistry: 'myFirstProject'
+  containerRegistry: riddhiazurecontainerregistry.azurecr.io
 
 pool:
   name: Default

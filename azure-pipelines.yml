@@ -7,10 +7,12 @@ trigger:
 - azure-pipelines
 
 variables:
-  dockerfilepath: '${Build.SourceDirectory}/Dockerfile'
-  dockerRegistryServiceConnection: df6ddb32-1258-464f-b78b-747f97ce221d
-  imageRegistry: 'myFirstProject'
-  containerRegistry: riddhiazurecontainerregistry.azurecr.io
+  - group: FirstProjectVariable
+  - name: dockerfilepath
+    value: '${Build.SourceDirectory}/Dockerfile'
+  - name: imageRegistry
+    value: 'myFirstProject'
+  
 
 pool:
   name: Default

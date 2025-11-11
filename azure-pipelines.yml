@@ -9,7 +9,8 @@ trigger:
 variables:
   dockerfilepath: '${Build.SourceDirectory}/Dockerfile'
   dockerRegistryServiceConnection: df6ddb32-1258-464f-b78b-747f97ce221d
-  imageRegistry: riddhiazurecontainerregistry.azurecr.io
+  imageRegistry: 'myFirstProject'
+  containerRegistry: riddhiazurecontainerregistry.azurecr.io
 
 pool:
   name: Default
@@ -22,8 +23,11 @@ stages:
         displayName: Build
         steps:
         - script: |
-            mvnd clean
-          displayName: "clean project"
+            mvnd install
+          displayName: "install project"
+        - script: |
+            mvnd clean package
+          displayName: "package jar project"
         # - task: Maven@4
         #   inputs:
         #     azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'
@@ -41,6 +45,7 @@ stages:
             repository: '$(imageRegistry)'
             command: 'build'
             Dockerfile: 'Dockerfile'
+            buildContext: '.'
   - stage: Push
     displayName: Push
     jobs:

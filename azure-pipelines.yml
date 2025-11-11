@@ -67,6 +67,7 @@ stages:
             buildType: 'current'
             downloadType: 'single'
             artifactName: 'drop'
+            itemPattern: '**.jar'
             downloadPath: '$(System.DefaultWorkingDirectory)'
         - task: AzureWebApp@1
           inputs:

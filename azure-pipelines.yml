@@ -25,6 +25,9 @@ stages:
         - script: |
             mvnd clean
           displayName: "clean project"
+        - script: |
+            mvnd package
+          displayName: "package jar project"
         # - task: Maven@4
         #   inputs:
         #     azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'

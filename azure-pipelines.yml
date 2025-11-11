@@ -4,16 +4,52 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- azure-pipelines
+
+variables:
+  dockerfilepath: '${Build.SourceDirectory}/Dockerfile'
+  dockerRegistryServiceConnection: df6ddb32-1258-464f-b78b-747f97ce221d
+  imageRegistry: riddhiazurecontainerregistry.azurecr.io
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+        - script: |
+            mvnd clean
+          displayName: "clean project"
+        # - task: Maven@4
+        #   inputs:
+        #     azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'
+        #     mavenPomFile: 'pom.xml'
+        #     publishJUnitResults: true
+        #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        #     javaHomeOption: 'JDKVersion'
+        #     mavenVersionOption: 'Default'
+        #     mavenAuthenticateFeed: false
+        #     effectivePomSkip: false
+        #     sonarQubeRunAnalysis: false
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'ACR-ServiceConnection'
+            repository: '$(imageRegistry)'
+            command: 'build'
+            Dockerfile: 'Dockerfile'
+  - stage: Push
+    displayName: Push
+    jobs:
+      - job: Push
+        displayName: Push
+        steps:
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'ACR-ServiceConnection'
+            repository: '$(imageRegistry)'
+            command: 'push'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'

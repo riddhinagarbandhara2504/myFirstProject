@@ -35,12 +35,14 @@ stages:
         #     mavenAuthenticateFeed: false
         #     effectivePomSkip: false
         #     sonarQubeRunAnalysis: false
+        - checkout: self
         - task: Docker@2
           inputs:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'build'
             Dockerfile: 'Dockerfile'
+            buildContext: '.'
   - stage: Push
     displayName: Push
     jobs:

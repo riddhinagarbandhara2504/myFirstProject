@@ -39,7 +39,6 @@ stages:
         #     mavenAuthenticateFeed: false
         #     effectivePomSkip: false
         #     sonarQubeRunAnalysis: false
-        - checkout: self
         - task: Docker@2
           inputs:
             containerRegistry: 'ACR-ServiceConnection'

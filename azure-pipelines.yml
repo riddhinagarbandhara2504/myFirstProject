@@ -59,6 +59,11 @@ stages:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'push'
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/target'
+            Contents: '*.jar'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
         - task: PublishBuildArtifacts@1
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
@@ -71,6 +76,12 @@ stages:
       - job: Publish
         displayName: Publish
         steps:
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop'
+            downloadPath: '$(System.DefaultWorkingDirectory)'
         - task: AzureWebApp@1
           inputs:
             azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'

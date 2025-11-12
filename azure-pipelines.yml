@@ -26,7 +26,7 @@ stages:
           workingDirectory: '$(Build.SourcesDirectory)'
         - task: CopyFiles@2
           inputs:
-            SourceFolder: '$(Build.SourcesDirectory)/target'
+            SourceFolder: '$(Build.SourcesDirectory)'
             Contents: '*.jar'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
         - task: Docker@2
@@ -48,7 +48,7 @@ stages:
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'drop'
-            publishLocation: 'Container'
+            # publishLocation: 'Container'
         - task: DownloadBuildArtifacts@1
           inputs:
             buildType: 'current'

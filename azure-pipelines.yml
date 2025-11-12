@@ -55,12 +55,12 @@ stages:
             buildType: 'current'
             downloadType: 'single'
             artifactName: 'drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'ACR-ServiceConnection'
-            repository: '$(imageRegistry)'
-            command: 'push'
+        #     downloadPath: '$(System.ArtifactsDirectory)'
+        # - task: Docker@2
+        #   inputs:
+        #     containerRegistry: 'ACR-ServiceConnection'
+        #     repository: '$(imageRegistry)'
+        #     command: 'push'
   - stage: Publish
     displayName: Publish
     jobs:

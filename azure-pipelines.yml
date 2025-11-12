@@ -26,9 +26,11 @@ stages:
           workingDirectory: '$(Build.SourcesDirectory)'
         - task: CopyFiles@2
           inputs:
-            SourceFolder: '$(Build.SourcesDirectory)'
+            SourceFolder: '$(Build.SourcesDirectory)/target'
             Contents: '*.jar'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        - script: riddhi directory $(Build.ArtifactStagingDirectory)
+          displayName: logs
         - task: Docker@2
           inputs:
             containerRegistry: 'ACR-ServiceConnection'

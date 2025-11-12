@@ -44,6 +44,9 @@ stages:
             command: 'build'
             Dockerfile: 'Dockerfile'
             buildContext: '.'
+  - stage: Push
+    displayName: Push
+    jobs:
       - job: Push
         displayName: Push
         steps:
@@ -58,6 +61,9 @@ stages:
             containerRegistry: 'ACR-ServiceConnection'
             repository: '$(imageRegistry)'
             command: 'push'
+  - stage: Publish
+    displayName: Publish
+    jobs:
       - job: Publish
         displayName: Publish
         steps:

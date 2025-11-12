@@ -29,8 +29,14 @@ stages:
             SourceFolder: '$(Build.SourcesDirectory)/target'
             Contents: '*.jar'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        - script: riddhi directory $(Build.ArtifactStagingDirectory)
+        - script: 
+            echo riddhi directory $(Build.ArtifactStagingDirectory)
           displayName: logs
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            # publishLocation: 'Container'
         - task: Docker@2
           inputs:
             containerRegistry: 'ACR-ServiceConnection'
@@ -46,11 +52,7 @@ stages:
       - job: Push
         displayName: Push
         steps:
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'drop'
-            # publishLocation: 'Container'
+        
         - task: DownloadBuildArtifacts@1
           inputs:
             buildType: 'current'

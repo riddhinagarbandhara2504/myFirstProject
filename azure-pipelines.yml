@@ -70,10 +70,10 @@ stages:
         - script: 
             echo riddhi directory $(System.DefaultWorkingDirectory)
           displayName: logs
-        - task: PublishPipelineArtifact@1
-          inputs:
-            targetPath: '$(Build.ArtifactStagingDirectory)' 
-            artifactName: drop
+        # - task: PublishPipelineArtifact@1
+        #   inputs:
+        #     targetPath: '$(Build.ArtifactStagingDirectory)' 
+        #     artifactName: drop
         - task: AzureWebApp@1
           inputs:
             azureSubscription: 'Azure subscription 1(df6ddb32-1258-464f-b78b-747f97ce221d)'

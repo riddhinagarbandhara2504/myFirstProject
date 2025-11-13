@@ -1,10 +1,10 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Maven Package"]   # 👈 Must match the name in docker-image.yml
+    types:
+      - completed  
 
 jobs:
 
